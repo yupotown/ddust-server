@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.15
+
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: go build .
+
+      - name: Copy artifacts
+        run: mkdir -p artifacts && cp server artifacts
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ddust-server
+          path: artifacts
